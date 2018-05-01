@@ -23,6 +23,20 @@ def wait(fn):
 
 class FunctionalTest(StaticLiveServerTestCase):
 
+    def quit_browser(self):
+        """
+        Quit the browser and ignore/avoid ConnectionAbortedError exceptions.
+        """
+        try:
+            self.browser.refresh()
+            self.browser.quit()
+        except Exception as e:
+            print('>>>>> Caught exception: ', e)
+
+        ####time.sleep(0.85)    ### Will sleeping fix spuruous exception? It may... [hjk: Apr 11 2018]
+
+
+
     def setUp(self):
         self.browser = webdriver.Firefox()
         self.staging_server = os.environ.get('STAGING_SERVER')
@@ -32,7 +46,8 @@ class FunctionalTest(StaticLiveServerTestCase):
 
 
     def tearDown(self):
-        self.browser.quit()
+        ###self.browser.quit()
+        self.quit_browser()
 
 
     @wait
