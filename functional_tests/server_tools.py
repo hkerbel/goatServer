@@ -1,9 +1,10 @@
 from fabric.api import run
 from fabric.context_managers import settings, shell_env
 
+###_SITES_ROOT_PATH = '/var/local/sites'          # Root path of web site folders on server.
 
 def _get_manage_dot_py(host):
-    return f'~/sites/{host}/virtualenv/bin/python ~/sites/{host}/manage.py'
+    return f'/var/local/sites/{host}/virtualenv/bin/python /var/local/sites/{host}/manage.py'
 
 
 def reset_database(host):
@@ -13,7 +14,7 @@ def reset_database(host):
 
 
 def _get_server_env_vars(host):
-    env_lines = run(f'cat ~/sites/{host}/.env').splitlines()
+    env_lines = run(f'cat /var/local/sites/{host}/.env').splitlines()
     return dict(l.split('=') for l in env_lines if l)
 
 
